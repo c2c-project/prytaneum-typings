@@ -1,7 +1,9 @@
 import { ObjectId } from 'mongodb';
+import { Meta } from '.';
 
 export interface Townhall {
     _id: string | ObjectId;
+    meta: Meta;
     form: TownhallForm;
     settings: TownhallSettings;
 }

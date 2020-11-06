@@ -59,5 +59,16 @@ export interface User {
     };
 }
 
+export interface Meta {
+    createdAt: Date | string;
+    createdBy: {
+        _id: string | ObjectId;
+        name: {
+            first: string;
+            last: string;
+        };
+    };
+}
+
 export * from './auth';
 export * from './townhall';
