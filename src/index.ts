@@ -36,6 +36,7 @@ export interface User {
         verified: boolean;
         address: string;
     };
+    password: string;
     name: {
         first: string;
         last: string;
