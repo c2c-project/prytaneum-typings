@@ -54,6 +54,11 @@ export interface User {
             types: string[];
         };
     };
+}
+
+export interface UserHistory {
+    _id: string | ObjectId;
+    userId: string | ObjectId;
     history: {
         actions: {
             timestamp: Date | number | string;
