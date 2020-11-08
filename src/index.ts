@@ -31,6 +31,10 @@ export interface Team {
 }
 export interface User {
     _id: string | ObjectId;
+    meta: {
+        createdAt: Date | string;
+        lastLogin: Date | string;
+    };
     roles: string[];
     email: {
         verified: boolean;
