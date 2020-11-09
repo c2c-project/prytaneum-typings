@@ -82,6 +82,8 @@ export interface UserHistory {
     };
 }
 
+export type Roles = 'organizer' | 'admin';
+
 /**
  * general meta field on any database doc
  */
