@@ -39,7 +39,7 @@ export interface User {
         createdAt: Date | string;
         lastLogin: Date | string;
     };
-    roles: string[];
+    roles: Roles[];
     email: {
         verified: boolean;
         address: string;
