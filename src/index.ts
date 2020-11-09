@@ -11,7 +11,7 @@ export type ReferenceNames =
 
 interface Reference {
     link: string;
-    // Note: IFf necessary, add more types of references in the future. There must be an icon for each Reference.name
+    // NOTE: If necessary, add more types of references in the future. There must be an icon for each Reference.name
     name: ReferenceNames;
 }
 
@@ -29,6 +29,10 @@ export interface Team {
     name: string;
     members: TeamMember[];
 }
+
+/**
+ * on the client _id will be a string, on the server the _id will be an object id
+ */
 export interface User {
     _id: string | ObjectId;
     meta: {
@@ -56,6 +60,11 @@ export interface User {
     };
 }
 
+/**
+ * Fields from the user document that are safe to send to the client in almost any scenario
+ */
+export type ClientSafeUser = Pick<User, '_id' | 'email' | 'name'>;
+
 export interface UserHistory {
     _id: string | ObjectId;
     userId: string | ObjectId;
@@ -73,6 +82,9 @@ export interface UserHistory {
     };
 }
 
+/**
+ * general meta field on any database doc
+ */
 export interface Meta {
     createdAt: Date | string;
     createdBy: {
