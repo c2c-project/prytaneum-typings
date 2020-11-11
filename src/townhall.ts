@@ -73,7 +73,7 @@ export interface Question {
     _id: string | ObjectId;
     meta: {
         original?: string; // will be a question id if it's an edit of something else
-        townhallId: string;
+        townhallId: string | ObjectId;
         user: {
             _id: string;
             name: Name;
