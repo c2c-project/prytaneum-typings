@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { Meta } from '.';
+import { Meta, Name } from '.';
 
 export interface Townhall {
     _id: string | ObjectId;
@@ -76,9 +76,9 @@ export interface Question {
         townhallId: string;
         user: {
             _id: string;
-            name: string;
+            name: Name;
         };
-        timestamp: string;
+        timestamp: Date | string;
     };
     question: string;
     state: QuestionState;

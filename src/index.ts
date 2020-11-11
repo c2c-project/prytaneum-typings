@@ -29,6 +29,13 @@ export interface Team {
     name: string;
     members: TeamMember[];
 }
+/**
+ * name interface used for all "name" fields in db collections
+ */
+export interface Name {
+    first: string;
+    last: string;
+}
 
 /**
  * on the client _id will be a string, on the server the _id will be an object id
@@ -45,10 +52,7 @@ export interface User {
         address: string;
     };
     password: string;
-    name: {
-        first: string;
-        last: string;
-    };
+    name: Name;
     settings: {
         townhall: {
             anonymous: boolean;
