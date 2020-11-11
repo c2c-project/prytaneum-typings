@@ -64,7 +64,7 @@ export interface Speaker {
     description: string; // description of who the speaker is
 }
 
-export interface TownhallQuestionForm {
+export interface QuestionForm {
     question: string;
 }
 
