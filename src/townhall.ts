@@ -75,7 +75,7 @@ export interface Question {
         original?: string; // will be a question id if it's an edit of something else
         townhallId: string | ObjectId;
         user: {
-            _id: string;
+            _id: string | ObjectId;
             name: Name;
         };
         timestamp: Date | string;
