@@ -97,6 +97,10 @@ export interface ChatMessage {
     message: string;
 }
 
+export interface ChatMessageForm {
+    message: string;
+}
+
 export type Panes = 'Question Feed' | 'Chat' | 'Information';
 
 // export type SocketNamespaces = '/townhall-messages' | '/townhall-questions';
