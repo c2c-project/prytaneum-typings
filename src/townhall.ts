@@ -88,18 +88,11 @@ export interface Question {
     };
 }
 
+// TODO: last updated field
 export interface ChatMessage {
     _id: string | ObjectId;
-    meta: {
-        user: {
-            _id: string | ObjectId;
-            name: {
-                first: string;
-                last: string;
-            };
-        };
+    meta: Meta & {
         townhallId: string | ObjectId;
-        timestamp: string | Date | number;
     };
     message: string;
 }
