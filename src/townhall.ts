@@ -92,16 +92,28 @@ export interface ChatMessage {
     _id: string | ObjectId;
     meta: {
         user: {
-            _id: string;
+            _id: string | ObjectId;
             name: {
                 first: string;
                 last: string;
             };
         };
-        townhallId: string;
+        townhallId: string | ObjectId;
         timestamp: string | Date | number;
     };
     message: string;
 }
 
 export type Panes = 'Question Feed' | 'Chat' | 'Information';
+
+// export type SocketNamespaces = '/townhall-messages' | '/townhall-questions';
+
+// export interface SocketEvents {
+//     '/townhall-messages': 'message-state';
+//     // '/townhall-'
+// }
+
+// export interface SocketEventPayload<T, U> {
+//     type: T;
+//     payload: U;
+// }
