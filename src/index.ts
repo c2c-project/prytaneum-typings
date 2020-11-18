@@ -102,5 +102,10 @@ export interface Meta {
     };
 }
 
+export type WrapPayload<Type extends string, Payload> = {
+    type: Type;
+    payload: Payload;
+};
+
 export * from './auth';
 export * from './townhall';

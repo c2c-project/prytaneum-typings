@@ -26,7 +26,7 @@ export interface TownhallSettings {
         enabled: boolean;
         list: string[]; // user id's
     };
-    links: {
+    links: { // TODO: change to attachments
         enabled: boolean;
         list: {
             name: string;
