@@ -71,14 +71,9 @@ export interface QuestionForm {
 export type QuestionState = '' | 'IN_QUEUE' | 'ASKED' | 'CURRENT';
 export interface Question {
     _id: string | ObjectId;
-    meta: {
+    meta: Meta & {
         original?: string; // will be a question id if it's an edit of something else
         townhallId: string | ObjectId;
-        user: {
-            _id: string | ObjectId;
-            name: Name;
-        };
-        timestamp: Date | string;
     };
     question: string;
     state: QuestionState;
