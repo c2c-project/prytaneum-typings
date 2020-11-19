@@ -157,7 +157,7 @@ export const makeQuestionForm = () => {
     return { question: faker.lorem.lines() };
 };
 
-export type QuestionState = '' | 'IN_QUEUE' | 'ASKED' | 'CURRENT';
+export type QuestionState = '' | 'in_queue' | 'asked' | 'current';
 
 export const pickQuestionState = (): QuestionState => {
     const choice = Math.random();
@@ -165,11 +165,11 @@ export const pickQuestionState = (): QuestionState => {
     if (choice < 0.25) {
         return '';
     } else if (choice < 0.5) {
-        return 'IN_QUEUE';
+        return 'in_queue';
     } else if (choice < 0.75) {
-        return 'ASKED';
+        return 'asked';
     } else {
-        return 'CURRENT';
+        return 'current';
     }
 };
 
@@ -185,6 +185,7 @@ export interface Question {
     aiml: {
         labels: string[];
     };
+    visibility: Visibility;
 }
 
 export const makeQuestion = (): Question => {
@@ -201,7 +202,15 @@ export const makeQuestion = (): Question => {
         aiml: {
             labels: [],
         },
+        visibility: pickVisibility(),
     };
+};
+
+export type Visibility = 'visible' | 'hidden';
+
+export const pickVisibility = (): Visibility => {
+    const choice = Math.random();
+    return choice > 0.5 ? 'visible' : 'hidden';
 };
 
 // TODO: last updated field
@@ -210,6 +219,7 @@ export interface ChatMessage {
     meta: Meta & {
         townhallId: string | ObjectId;
     };
+    visibility: Visibility;
     message: string;
 }
 
@@ -217,6 +227,7 @@ export const makeChatMessage = (): ChatMessage => ({
     _id: faker.random.alphaNumeric(12),
     meta: { ...makeMetaField(), townhallId: faker.random.alphaNumeric(12) },
     message: faker.lorem.lines(3),
+    visibility: pickVisibility(),
 });
 
 export interface ChatMessageForm {
