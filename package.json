@@ -4,6 +4,9 @@
     "main": "./src/index.js",
     "private": true,
     "license": "MIT",
+    "scripts": {
+        "build": "tsc"
+    },
     "devDependencies": {
         "@types/faker": "^5.1.4",
         "@types/mongodb": "^3.5.32",
