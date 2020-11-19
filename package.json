@@ -6,7 +6,7 @@
     "private": true,
     "license": "MIT",
     "scripts": {
-        "prepare": "yarn build",
+        "prepare": "npm run build",
         "build": "tsc"
     },
     "devDependencies": {
