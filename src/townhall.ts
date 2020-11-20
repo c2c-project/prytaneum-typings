@@ -252,11 +252,35 @@ export type Panes = 'Question Feed' | 'Chat' | 'Information';
 //     payload: U;
 // }
 
+interface TownhallState {
+    active: boolean;
+    // TODO: move this inside of active?
+    start: Date | null;
+    end: Date | null;
+    attendees: {
+        current: number;
+        max: number;
+        // TODO: other stats so we can show a graph?
+        // engagement and attendees per question?
+    };
+}
+
+export const makeTownhallState = (): TownhallState => ({
+    active: true,
+    start: faker.date.recent(),
+    end: null,
+    attendees: {
+        current: faker.random.number(5),
+        max: faker.random.number(10),
+    },
+});
+
 export interface Townhall {
     _id: string | ObjectId;
     meta: Meta;
     form: TownhallForm;
     settings: TownhallSettings;
+    state: TownhallState;
 }
 
 export const makeTownhall = (): Townhall => ({
@@ -264,6 +288,7 @@ export const makeTownhall = (): Townhall => ({
     form: makeTownhallForm(),
     meta: makeMetaField(),
     settings: makeTownhallSettings(),
+    state: makeTownhallState(),
 });
 
 export const makeTownHalls = (
