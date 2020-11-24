@@ -1,19 +1,19 @@
 import { ObjectId } from 'mongodb';
 import { Meta, Name } from '.';
 
-interface FileAttachment {
+export interface FileAttachment {
     type: 'file';
     name: string;
     file: string; // this will be a url on the server to download that file
 }
 
-interface UrlAttachment {
+export interface UrlAttachment {
     type: 'url';
     name: string;
     url: string; // e.g. some youtube video
 }
 
-type TownhallAttachment = FileAttachment | UrlAttachment;
+export type TownhallAttachment = FileAttachment | UrlAttachment;
 
 export interface TownhallSettings {
     waitingRoom: {
@@ -119,7 +119,7 @@ export type Panes = 'Question Feed' | 'Chat' | 'Information';
 //     payload: U;
 // }
 
-interface TownhallState {
+export interface TownhallState {
     active: boolean;
     // TODO: move this inside of active?
     start: Date | null;
