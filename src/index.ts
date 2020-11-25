@@ -1,3 +1,4 @@
+import faker from 'faker';
 import { ObjectID, ObjectId } from 'mongodb';
 
 export type ReferenceNames =
@@ -37,6 +38,13 @@ export interface Name {
     last: string;
 }
 
+export const makeName = (): Name => {
+    return {
+        first: faker.name.firstName(),
+        last: faker.name.lastName(),
+    };
+};
+
 /**
  * on the client _id will be a string, on the server the _id will be an object id
  */
@@ -63,6 +71,33 @@ export interface User {
         };
     };
 }
+
+export const makeUser = (): User => {
+    return {
+        _id: faker.random.alphaNumeric(12),
+        meta: {
+            createdAt: faker.date.recent(),
+            lastLogin: faker.date.recent(),
+        },
+        roles: [pickRole()],
+        email: {
+            verified: Math.random() < 0.5,
+            address: faker.internet.email(),
+        },
+        password: faker.internet.password(),
+        name: makeName(),
+        settings: {
+            townhall: {
+                anonymous: Math.random() > 0.5,
+            },
+            notifications: {
+                enabled: Math.random() > 0.5,
+                types: [], // TODO:
+            },
+        },
+    };
+};
+
 /**
  * Fields from the user document that are safe to send to the client in almost any scenario
  */
@@ -84,6 +119,28 @@ export interface UserHistory {
         }[];
     };
 }
+
+export const makeUserHistory = (): UserHistory => ({
+    _id: faker.random.alphaNumeric(12),
+    userId: faker.random.alphaNumeric(12),
+    history: {
+        actions: [
+            {
+                timestamp: faker.date.recent(),
+                action: '',
+            },
+        ],
+        townhall: [
+            {
+                _id: faker.random.alphaNumeric(12),
+                title: faker.random.words(),
+                timestamp: faker.date.recent(),
+                tags: [],
+            },
+        ],
+    },
+});
+
 export type Roles = 'organizer' | 'admin' | '';
 
 export const pickRole = (): Roles => {
@@ -112,6 +169,21 @@ export interface Meta {
         name: Name;
     };
 }
+
+export const makeMetaField = (): Meta => {
+    return {
+        createdAt: faker.date.recent(),
+        createdBy: {
+            _id: faker.random.alphaNumeric(12),
+            name: makeName(),
+        },
+        updatedAt: faker.date.recent(),
+        updatedBy: {
+            _id: faker.random.alphaNumeric(12),
+            name: makeName(),
+        },
+    };
+};
 
 export type WrapPayload<Type extends string, Payload> = {
     type: Type;
