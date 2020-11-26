@@ -291,7 +291,7 @@ export const makeTownhall = (): Townhall => ({
     state: makeTownhallState(),
 });
 
-export const makeTownHalls = (
+export const makeTownhalls = (
     amount?: number,
     callback?: (t: Townhall) => Townhall // for transforming each townhall if needed
 ): Townhall[] => {
