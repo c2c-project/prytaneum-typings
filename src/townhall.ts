@@ -173,11 +173,11 @@ export const pickQuestionState = (): QuestionState => {
     }
 };
 
-export interface Question {
-    _id: string | ObjectId;
+export interface Question<T extends string | ObjectId = string> {
+    _id: T;
     meta: Meta & {
         original?: string; // will be a question id if it's an edit of something else
-        townhallId: string | ObjectId;
+        townhallId: T;
     };
     question: string;
     state: QuestionState;
@@ -214,10 +214,10 @@ export const pickVisibility = (): Visibility => {
 };
 
 // TODO: last updated field
-export interface ChatMessage {
-    _id: string | ObjectId;
+export interface ChatMessage<T extends string | ObjectId = string> {
+    _id: T;
     meta: Meta & {
-        townhallId: string | ObjectId;
+        townhallId: T;
     };
     visibility: Visibility;
     message: string;
@@ -275,8 +275,8 @@ export const makeTownhallState = (): TownhallState => ({
     },
 });
 
-export interface Townhall {
-    _id: string | ObjectId;
+export interface Townhall<T extends string | ObjectId = string> {
+    _id: T;
     meta: Meta;
     form: TownhallForm;
     settings: TownhallSettings;

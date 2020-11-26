@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { ObjectID, ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 
 export type ReferenceNames =
     | 'Github'
@@ -48,8 +48,8 @@ export const makeName = (): Name => {
 /**
  * on the client _id will be a string, on the server the _id will be an object id
  */
-export interface User {
-    _id: string | ObjectId;
+export interface User<T extends string | ObjectId = string> {
+    _id: T;
     meta: {
         createdAt: Date | string;
         lastLogin: Date | string;
@@ -103,16 +103,16 @@ export const makeUser = (): User => {
  */
 export type ClientSafeUser = Pick<User, '_id' | 'email' | 'name'>;
 
-export interface UserHistory {
-    _id: string | ObjectId;
-    userId: string | ObjectId;
+export interface UserHistory<T extends string | ObjectId = string> {
+    _id: T;
+    userId: T;
     history: {
         actions: {
             timestamp: Date | number | string;
             action: string; // TODO:
         }[];
         townhall: {
-            _id: string | ObjectID;
+            _id: T;
             title: string;
             timestamp: Date | number | string;
             tags: string[]; // stuff like attended/moderated/banned/viewed/etc
@@ -157,15 +157,15 @@ export const pickRole = (): Roles => {
 /**
  * general meta field on any database doc
  */
-export interface Meta {
+export interface Meta<T extends string | ObjectId = string> {
     createdAt: Date | string;
     createdBy: {
-        _id: string | ObjectId;
+        _id: T;
         name: Name;
     };
     updatedAt: Date | string;
     updatedBy: {
-        _id: string | ObjectId;
+        _id: T;
         name: Name;
     };
 }
