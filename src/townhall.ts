@@ -1,6 +1,6 @@
 import faker from 'faker';
 import { ObjectId } from 'mongodb';
-import { Meta, Name, makeMetaField } from '.';
+import { Meta, Name, makeMetaField, makeName } from '.';
 
 const past = faker.date.past();
 const future = faker.date.future();
@@ -39,6 +39,17 @@ export const makeTownhallAttachment = (): TownhallAttachment => {
     return Math.random() > 0.5 ? makeUrlAttachment() : makeFileAttachment();
 };
 
+export type ModeratorPermissions = 'TODO';
+export interface Moderator {
+    permissions: ModeratorPermissions[];
+    name: Name;
+}
+
+export const makeModerator = (): Moderator => ({
+    permissions: ['TODO'],
+    name: makeName(),
+});
+
 export interface TownhallSettings {
     waitingRoom: {
         enabled: boolean;
@@ -63,8 +74,7 @@ export interface TownhallSettings {
         list: TownhallAttachment[];
     };
     moderators: {
-        list: string[]; // userid[]
-        primary: string; // primary user id
+        list: Moderator[];
     };
     speakers: {
         list: Speaker[];
@@ -101,8 +111,7 @@ export const makeTownhallSettings = (): TownhallSettings => {
             list: [],
         },
         moderators: {
-            list: [],
-            primary: '',
+            list: [makeModerator()],
         },
         speakers: {
             list: [makeSpeaker()],
