@@ -5,7 +5,7 @@ import { Meta, Name, makeMetaField } from '.';
 const past = faker.date.past();
 const future = faker.date.future();
 
-interface FileAttachment {
+export interface FileAttachment {
     type: 'file';
     name: string;
     file: string; // this will be a url on the server to download that file
@@ -19,7 +19,7 @@ export const makeFileAttachment = (): FileAttachment => {
     };
 };
 
-interface UrlAttachment {
+export interface UrlAttachment {
     type: 'url';
     name: string;
     url: string; // e.g. some youtube video
@@ -33,7 +33,7 @@ export const makeUrlAttachment = (): UrlAttachment => {
     };
 };
 
-type TownhallAttachment = FileAttachment | UrlAttachment;
+export type TownhallAttachment = FileAttachment | UrlAttachment;
 
 export const makeTownhallAttachment = (): TownhallAttachment => {
     return Math.random() > 0.5 ? makeUrlAttachment() : makeFileAttachment();
