@@ -296,7 +296,8 @@ export const makeTownhalls = (
     callback?: (t: Townhall) => Townhall // for transforming each townhall if needed
 ): Townhall[] => {
     const list = [];
-    for (let i = 0; i < 10 || amount; i += 1) {
+    const iterations = amount || 10;
+    for (let i = 0; i < iterations; i += 1) {
         let townhall = makeTownhall();
         if (callback) townhall = callback(townhall);
         list.push(townhall);
