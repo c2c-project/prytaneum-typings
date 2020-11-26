@@ -40,14 +40,16 @@ export const makeTownhallAttachment = (): TownhallAttachment => {
 };
 
 export type ModeratorPermissions = 'TODO';
-export interface Moderator {
+export interface Moderator<T extends ObjectId | string = string> {
     permissions: ModeratorPermissions[];
     name: Name;
+    _id: T;
 }
 
 export const makeModerator = (): Moderator => ({
     permissions: ['TODO'],
     name: makeName(),
+    _id: faker.random.alphaNumeric(12),
 });
 
 export interface TownhallSettings {
