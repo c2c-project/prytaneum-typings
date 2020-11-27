@@ -315,3 +315,50 @@ export const makeTownhalls = (
     }
     return list;
 };
+
+/**
+ * SOCKETIO CONTRACTS
+ */
+export type QuestionInitialState = {
+    type: 'initial-state';
+    payload: Question[];
+};
+export type QuestionCreatePayload = {
+    type: 'create-question';
+    payload: Question;
+};
+export type QuestionUpdatePayload = {
+    type: 'update-question';
+    payload: Question;
+};
+export type QuestionDeletePayload = {
+    type: 'delete-question';
+    payload: Question;
+};
+export type QuestionPayloads =
+    | QuestionInitialState
+    | QuestionCreatePayload
+    | QuestionUpdatePayload
+    | QuestionDeletePayload;
+
+export type ChatMessageCreatePayload = {
+    type: 'create-chat-message';
+    payload: ChatMessage;
+};
+export type ChatMessageUpdatePayload = {
+    type: 'update-chat-message';
+    payload: ChatMessage;
+};
+export type ChatMessageDeletePayload = {
+    type: 'delete-chat-message';
+    payload: ChatMessage;
+};
+export type ChatMessageModeratePayload = {
+    type: 'moderate-chat-message';
+    payload: ChatMessage;
+};
+export type ChatMessagePayloads =
+    | ChatMessageCreatePayload
+    | ChatMessageUpdatePayload
+    | ChatMessageDeletePayload
+    | ChatMessageModeratePayload;
