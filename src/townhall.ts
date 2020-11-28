@@ -362,3 +362,6 @@ export type ChatMessagePayloads =
     | ChatMessageUpdatePayload
     | ChatMessageDeletePayload
     | ChatMessageModeratePayload;
+
+
+export type ServerEmits = 'chat-message-state' | 'question-state' | 'townhall-state';
