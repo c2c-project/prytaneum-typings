@@ -46,6 +46,10 @@ export interface Moderator<T extends ObjectId | string = string> {
     _id: T;
 }
 
+export interface ModeratorForm {
+    email: string;
+}
+
 export const makeModerator = (): Moderator => ({
     permissions: ['TODO'],
     name: makeName(),
