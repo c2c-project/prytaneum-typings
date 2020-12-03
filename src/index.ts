@@ -101,7 +101,10 @@ export const makeUser = (): User => {
 /**
  * Fields from the user document that are safe to send to the client in almost any scenario
  */
-export type ClientSafeUser = Pick<User, '_id' | 'email' | 'name'>;
+export type ClientSafeUser<T extends string | ObjectId = string> = Pick<
+    User<T>,
+    '_id' | 'email' | 'name'
+>;
 
 export interface UserHistory<T extends string | ObjectId = string> {
     _id: T;
@@ -189,6 +192,17 @@ export type WrapPayload<Type extends string, Payload> = {
     type: Type;
     payload: Payload;
 };
+
+export interface Pagination {
+    page: number;
+    limit: number;
+    // if we get a request with 0 results back then we know it's the end of the collection
+    hasNext: boolean; // check if this is needed or whether we can solve with the cursor
+}
+
+// export interface Filters<T extends Record<string,unknown>> {
+//     [P in T]:
+// }
 
 export * from './auth';
 export * from './townhall';
