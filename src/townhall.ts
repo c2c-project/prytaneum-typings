@@ -196,7 +196,7 @@ export interface Question<T extends string | ObjectId = string> {
     };
     question: string;
     state: QuestionState;
-    likes: string[]; // array of user id's
+    likes: ObjectId[];
     aiml: {
         labels: string[];
     };
