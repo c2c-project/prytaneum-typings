@@ -311,7 +311,7 @@ export interface Townhall<T extends string | ObjectId = string> {
     meta: Meta;
     form: TownhallForm;
     settings: TownhallSettings;
-    state: TownhallState;
+    state: TownhallState<T>;
 }
 
 export const makeTownhall = (): Townhall => ({
