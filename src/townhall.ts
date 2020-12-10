@@ -191,7 +191,7 @@ export const pickQuestionState = (): QuestionState => {
 
 export interface Question<T extends string | ObjectId = string> {
     _id: T;
-    meta: Meta & {
+    meta: Meta<T> & {
         original?: string; // will be a question id if it's an edit of something else
         townhallId: T;
     };
@@ -232,7 +232,7 @@ export const pickVisibility = (): Visibility => {
 // TODO: last updated field
 export interface ChatMessage<T extends string | ObjectId = string> {
     _id: T;
-    meta: Meta & {
+    meta: Meta<T> & {
         townhallId: T;
     };
     visibility: Visibility;
@@ -308,7 +308,7 @@ export const makeTownhallState = (): TownhallState => ({
 
 export interface Townhall<T extends string | ObjectId = string> {
     _id: T;
-    meta: Meta;
+    meta: Meta<T>;
     form: TownhallForm;
     settings: TownhallSettings;
     state: TownhallState<T>;
