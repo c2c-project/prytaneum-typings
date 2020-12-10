@@ -268,7 +268,7 @@ export type Panes = 'Question Feed' | 'Chat' | 'Information';
 //     payload: U;
 // }
 
-interface TownhallState<T extends string | ObjectId = string> {
+export interface TownhallState<T extends string | ObjectId = string> {
     active: boolean;
     // TODO: move this inside of active?
     start: Date | null;
