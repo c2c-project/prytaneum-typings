@@ -172,6 +172,7 @@ export const makeQuestionForm = () => {
     return { question: faker.lorem.lines() };
 };
 
+// TODO: delete this after implementing question queue
 export type QuestionState = '' | 'in_queue' | 'asked' | 'current';
 
 export const pickQuestionState = (): QuestionState => {
@@ -267,7 +268,7 @@ export type Panes = 'Question Feed' | 'Chat' | 'Information';
 //     payload: U;
 // }
 
-interface TownhallState {
+interface TownhallState<T extends string | ObjectId = string> {
     active: boolean;
     // TODO: move this inside of active?
     start: Date | null;
@@ -278,6 +279,15 @@ interface TownhallState {
         // TODO: other stats so we can show a graph?
         // engagement and attendees per question?
     };
+    // this will always be null if the it has not started, and I need to set to null on townhall end
+    playing: null | Question<T>;
+    // we copy the questions because we don't want edits after the fact to affect the asked question last second
+    // we will possibly not allow edits
+    playlist: {
+        queued: Question<T>[];
+        played: Question<T>[];
+        list: Question<T>[];
+    };
 }
 
 export const makeTownhallState = (): TownhallState => ({
@@ -287,6 +297,12 @@ export const makeTownhallState = (): TownhallState => ({
     attendees: {
         current: faker.random.number(5),
         max: faker.random.number(10),
+    },
+    playing: makeQuestion(),
+    playlist: {
+        queued: [makeQuestion()],
+        played: [makeQuestion()],
+        list: [makeQuestion()],
     },
 });
 
