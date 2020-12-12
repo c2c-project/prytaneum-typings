@@ -279,11 +279,12 @@ export interface TownhallState<T extends string | ObjectId = string> {
         // TODO: other stats so we can show a graph?
         // engagement and attendees per question?
     };
-    // this will always be null if the it has not started, and I need to set to null on townhall end
-    playing: null | Question<T>;
+
     // we copy the questions because we don't want edits after the fact to affect the asked question last second
     // we will possibly not allow edits
     playlist: {
+        // this will always be null if the it has not started, and I need to set to null on townhall end
+        playing: null | Question<T>;
         queued: Question<T>[];
         played: Question<T>[];
         list: Question<T>[];
@@ -298,8 +299,8 @@ export const makeTownhallState = (): TownhallState => ({
         current: faker.random.number(5),
         max: faker.random.number(10),
     },
-    playing: makeQuestion(),
     playlist: {
+        playing: makeQuestion(),
         queued: [makeQuestion()],
         played: [makeQuestion()],
         list: [makeQuestion()],
