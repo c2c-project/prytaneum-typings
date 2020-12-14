@@ -340,28 +340,31 @@ export const makeTownhalls = (
 /**
  * SOCKETIO CONTRACTS
  */
-export type QuestionPayloads<T extends string | ObjectId = string> =
-    | WrapPayload<'initial-state', Question<T>[]>
-    | WrapPayload<'create-question', Question<T>>
-    | WrapPayload<'update-question', Question<T>>
-    | WrapPayload<'delete-question', Question<T>>;
 
-export type ChatMessagePayloads<T extends string | ObjectId = string> =
-    | WrapPayload<'create-chat-message', ChatMessage<T>>
-    | WrapPayload<'update-chat-message', ChatMessage<T>>
-    | WrapPayload<'delete-chat-message', ChatMessage<T>>
-    | WrapPayload<'moderate-chat-message', ChatMessage<T>>;
+export interface SocketIOEvents<T extends string | ObjectId = string> {
+    'chat-message-state':
+        | WrapPayload<'create-chat-message', ChatMessage<T>>
+        | WrapPayload<'update-chat-message', ChatMessage<T>>
+        | WrapPayload<'delete-chat-message', ChatMessage<T>>
+        | WrapPayload<'moderate-chat-message', ChatMessage<T>>;
 
-export type PlaylistPayloads<T extends string | ObjectId = string> =
-    | WrapPayload<'playlist-add', Question<T>>
-    | WrapPayload<'playlist-remove', T>
-    | WrapPayload<'playlist-queue-order', Question<T>[]>
-    | WrapPayload<'playlist-queue-add', Question<T>>
-    | WrapPayload<'playlist-queue-remove', T>
-    | WrapPayload<'playlist-queue-next', null>;
+    'question-state':
+        | WrapPayload<'initial-state', Question<T>[]>
+        | WrapPayload<'create-question', Question<T>>
+        | WrapPayload<'update-question', Question<T>>
+        | WrapPayload<'delete-question', Question<T>>;
 
-export type ServerEmits =
-    | 'chat-message-state'
-    | 'question-state'
-    | 'townhall-state'
-    | 'playlist-state';
+    'playlist-state':
+        | WrapPayload<'playlist-add', Question<T>>
+        | WrapPayload<'playlist-remove', T>
+        | WrapPayload<'playlist-queue-order', Question<T>[]>
+        | WrapPayload<'playlist-queue-add', Question<T>>
+        | WrapPayload<'playlist-queue-remove', T>
+        | WrapPayload<'playlist-queue-next', null>;
+
+    'townhall-state':
+        | WrapPayload<'user-attend', null>
+        | WrapPayload<'user-leave', null>
+        | WrapPayload<'townhall-start', null>
+        | WrapPayload<'townhall-end', null>;
+}
