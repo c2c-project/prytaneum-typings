@@ -1,6 +1,6 @@
 import faker from 'faker';
 import { ObjectId } from 'mongodb';
-import { Meta, Name, makeMetaField, makeName } from '.';
+import { Meta, makeMetaField, WrapPayload } from '.';
 
 const past = faker.date.past();
 const future = faker.date.future();
@@ -283,7 +283,10 @@ export interface TownhallState<T extends string | ObjectId = string> {
     // we copy the questions because we don't want edits after the fact to affect the asked question last second
     // we will possibly not allow edits
     playlist: {
-        position: number; // 0-indexed; max will be limited by the length of the queue -- starts at -1 if there's no current question
+        position: {
+            current: number; // 0-indexed; max will be limited by the length of the queue -- starts at -1 if there's no current question
+            timestamps: string[];
+        };
         queue: Question<T>[];
         list: Question<T>[];
     };
@@ -298,7 +301,7 @@ export const makeTownhallState = (): TownhallState => ({
         max: faker.random.number(10),
     },
     playlist: {
-        position: Math.random() > 0.5 ? 0 : -1,
+        position: { current: Math.random() > 0.5 ? 0 : -1, timestamps: [] },
         queue: [makeQuestion()],
         list: [makeQuestion()],
     },
@@ -337,51 +340,28 @@ export const makeTownhalls = (
 /**
  * SOCKETIO CONTRACTS
  */
-export type QuestionInitialState = {
-    type: 'initial-state';
-    payload: Question[];
-};
-export type QuestionCreatePayload = {
-    type: 'create-question';
-    payload: Question;
-};
-export type QuestionUpdatePayload = {
-    type: 'update-question';
-    payload: Question;
-};
-export type QuestionDeletePayload = {
-    type: 'delete-question';
-    payload: Question;
-};
-export type QuestionPayloads =
-    | QuestionInitialState
-    | QuestionCreatePayload
-    | QuestionUpdatePayload
-    | QuestionDeletePayload;
+export type QuestionPayloads<T extends string | ObjectId = string> =
+    | WrapPayload<'initial-state', Question<T>[]>
+    | WrapPayload<'create-question', Question<T>>
+    | WrapPayload<'update-question', Question<T>>
+    | WrapPayload<'delete-question', Question<T>>;
 
-export type ChatMessageCreatePayload = {
-    type: 'create-chat-message';
-    payload: ChatMessage;
-};
-export type ChatMessageUpdatePayload = {
-    type: 'update-chat-message';
-    payload: ChatMessage;
-};
-export type ChatMessageDeletePayload = {
-    type: 'delete-chat-message';
-    payload: ChatMessage;
-};
-export type ChatMessageModeratePayload = {
-    type: 'moderate-chat-message';
-    payload: ChatMessage;
-};
-export type ChatMessagePayloads =
-    | ChatMessageCreatePayload
-    | ChatMessageUpdatePayload
-    | ChatMessageDeletePayload
-    | ChatMessageModeratePayload;
+export type ChatMessagePayloads<T extends string | ObjectId = string> =
+    | WrapPayload<'create-chat-message', ChatMessage<T>>
+    | WrapPayload<'update-chat-message', ChatMessage<T>>
+    | WrapPayload<'delete-chat-message', ChatMessage<T>>
+    | WrapPayload<'moderate-chat-message', ChatMessage<T>>;
+
+export type PlaylistPayloads<T extends string | ObjectId = string> =
+    | WrapPayload<'playlist-add', Question<T>>
+    | WrapPayload<'playlist-remove', T>
+    | WrapPayload<'playlist-queue-order', Question<T>[]>
+    | WrapPayload<'playlist-queue-add', Question<T>>
+    | WrapPayload<'playlist-queue-remove', T>
+    | WrapPayload<'playlist-queue-next', null>;
 
 export type ServerEmits =
     | 'chat-message-state'
     | 'question-state'
-    | 'townhall-state';
+    | 'townhall-state'
+    | 'playlist-state';
