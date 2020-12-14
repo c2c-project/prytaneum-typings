@@ -283,10 +283,8 @@ export interface TownhallState<T extends string | ObjectId = string> {
     // we copy the questions because we don't want edits after the fact to affect the asked question last second
     // we will possibly not allow edits
     playlist: {
-        // this will always be null if the it has not started, and I need to set to null on townhall end
-        playing: null | Question<T>;
-        queued: Question<T>[];
-        played: Question<T>[];
+        position: number; // 0-indexed; max will be limited by the length of the queue -- starts at -1 if there's no current question
+        queue: Question<T>[];
         list: Question<T>[];
     };
 }
@@ -300,9 +298,8 @@ export const makeTownhallState = (): TownhallState => ({
         max: faker.random.number(10),
     },
     playlist: {
-        playing: makeQuestion(),
-        queued: [makeQuestion()],
-        played: [makeQuestion()],
+        position: Math.random() > 0.5 ? 0 : -1,
+        queue: [makeQuestion()],
         list: [makeQuestion()],
     },
 });
