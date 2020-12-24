@@ -234,7 +234,7 @@ export const makeQuestion = (): Question => {
             labels: [],
         },
         visibility: pickVisibility(),
-        replies: [],
+        replies: Math.random() > 0.5 ? [] : [makeReply()],
     };
 };
 
