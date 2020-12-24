@@ -189,19 +189,34 @@ export const pickQuestionState = (): QuestionState => {
     }
 };
 
+export interface Reply<T extends string | ObjectId = string> {
+    _id: T;
+    meta: Meta<T>;
+    replies: Reply<T>[];
+    text: string;
+}
+
+export const makeReply = (): Reply => ({
+    _id: faker.random.alphaNumeric(12),
+    meta: makeMetaField(),
+    replies: Math.random() > 0.5 ? [] : [makeReply()],
+    text: faker.lorem.lines(2),
+});
+
 export interface Question<T extends string | ObjectId = string> {
     _id: T;
     meta: Meta<T> & {
-        original?: string; // will be a question id if it's an edit of something else
         townhallId: T;
     };
     question: string;
+    quote: Question<T> | null;
     state: QuestionState;
     likes: ObjectId[];
     aiml: {
         labels: string[];
     };
     visibility: Visibility;
+    replies: Reply<T>[];
 }
 
 export const makeQuestion = (): Question => {
@@ -209,16 +224,17 @@ export const makeQuestion = (): Question => {
         _id: faker.random.alphaNumeric(12),
         meta: {
             ...makeMetaField(),
-            original: '',
             townhallId: faker.random.alphaNumeric(12),
         },
         question: faker.lorem.lines(2),
+        quote: Math.random() > 0.5 ? makeQuestion() : null,
         state: pickQuestionState(),
         likes: [],
         aiml: {
             labels: [],
         },
         visibility: pickVisibility(),
+        replies: [],
     };
 };
 
