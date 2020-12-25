@@ -197,14 +197,22 @@ export interface Reply<T extends string | ObjectId = string> {
     _id: T;
     meta: Meta<T>;
     replies: Reply<T>[];
-    text: string;
+    reply: string;
 }
 
 export const makeReply = (): Reply => ({
     _id: faker.random.alphaNumeric(12),
     meta: makeMetaField(),
     replies: Math.random() > 0.5 ? [] : [makeReply()],
-    text: faker.lorem.lines(2),
+    reply: faker.lorem.lines(2),
+});
+
+export interface ReplyForm {
+    reply: string;
+}
+
+export const makeReplyForm = (): ReplyForm => ({
+    reply: faker.lorem.lines(2),
 });
 
 export interface Question<T extends string | ObjectId = string> {
