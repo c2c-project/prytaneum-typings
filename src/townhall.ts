@@ -164,12 +164,16 @@ export const makeSpeaker = (): Speaker => ({
     description: faker.lorem.lines(5),
 });
 
-export interface QuestionForm {
+export interface QuestionForm<T extends string | ObjectId = string> {
     question: string;
+    quote?: T;
 }
 
-export const makeQuestionForm = () => {
-    return { question: faker.lorem.lines() };
+export const makeQuestionForm = (): QuestionForm => {
+    return {
+        question: faker.lorem.lines(),
+        quote: Math.random() > 0.5 ? faker.random.alphaNumeric(12) : undefined,
+    };
 };
 
 // TODO: delete this after implementing question queue
