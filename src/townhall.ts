@@ -92,6 +92,9 @@ export interface TownhallSettings {
         };
         registrants: string[]; // TODO: emails or userIds idk yet -- how to prevent abuse?
     };
+    video: {
+        url: string;
+    };
 }
 
 export const makeTownhallSettings = (): TownhallSettings => {
@@ -128,6 +131,9 @@ export const makeTownhallSettings = (): TownhallSettings => {
                 customTimes: [],
             },
             registrants: [],
+        },
+        video: {
+            url: '',
         },
     };
 };
