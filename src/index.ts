@@ -103,7 +103,7 @@ export const makeUser = (): User => {
  */
 export type ClientSafeUser<T extends string | ObjectId = string> = Pick<
     User<T>,
-    '_id' | 'email' | 'name'
+    '_id' | 'email' | 'name' | 'roles'
 >;
 
 export interface UserHistory<T extends string | ObjectId = string> {
