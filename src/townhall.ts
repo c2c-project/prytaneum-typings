@@ -172,13 +172,14 @@ export const makeSpeaker = (): Speaker => ({
 
 export interface QuestionForm<T extends string | ObjectId = string> {
     question: string;
-    quote?: T;
+    quoteId?: string;
 }
 
 export const makeQuestionForm = (): QuestionForm => {
     return {
         question: faker.lorem.lines(),
-        quote: Math.random() > 0.5 ? faker.random.alphaNumeric(12) : undefined,
+        quoteId:
+            Math.random() > 0.5 ? faker.random.alphaNumeric(12) : undefined,
     };
 };
 
