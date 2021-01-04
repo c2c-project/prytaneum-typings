@@ -206,3 +206,4 @@ export interface Pagination {
 
 export * from './auth';
 export * from './townhall';
+export * from './invites';
