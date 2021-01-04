@@ -207,3 +207,13 @@ export interface Pagination {
 export * from './auth';
 export * from './townhall';
 export * from './invites';
+
+export function makeGenFn<T>(fn: () => T) {
+    return (iterations: number) => {
+        const ret: T[] = [];
+        for (let i = 0; i < iterations; i += 1) {
+            ret.push(fn());
+        }
+        return ret;
+    };
+}
