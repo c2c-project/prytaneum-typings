@@ -1,20 +1,20 @@
 import { ObjectId } from 'mongodb';
 import faker from 'faker';
+import { Roles, pickRole } from './index';
 
+/**
+ * expiration will be part of the jwt
+ */
 export interface InviteLink<T extends string | ObjectId = string> {
     _id: T;
     inviter: T;
-    uses: {
-        limit: number;
-        attempted: number;
-    };
+    roles: Roles[];
+    limit: number;
 }
 
 export const makeInviteLink = (): InviteLink => ({
     _id: faker.random.alphaNumeric(12),
     inviter: faker.random.alphaNumeric(12),
-    uses: {
-        limit: Math.random() * 10,
-        attempted: Math.random() * 5,
-    },
+    roles: [pickRole()],
+    limit: faker.random.number(5),
 });
