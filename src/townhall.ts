@@ -230,7 +230,7 @@ export interface Question<T extends string | ObjectId = string> {
     question: string;
     quote: Question<T> | null;
     state: QuestionState;
-    likes: ObjectId[];
+    likes: T[];
     aiml: {
         labels: string[];
     };
