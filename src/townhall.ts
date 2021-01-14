@@ -395,7 +395,8 @@ export interface SocketIOEvents<T extends string | ObjectId = string> {
         | WrapPayload<'playlist-queue-order', Question<T>[]>
         | WrapPayload<'playlist-queue-add', Question<T>>
         | WrapPayload<'playlist-queue-remove', string>
-        | WrapPayload<'playlist-queue-next', null>;
+        | WrapPayload<'playlist-queue-next', null>
+        | WrapPayload<'playlist-like-count', { questionId: T; count: number }>;
 
     'townhall-state':
         | WrapPayload<'user-attend', null>
