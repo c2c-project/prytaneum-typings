@@ -393,10 +393,13 @@ export interface SocketIOEvents<T extends string | ObjectId = string> {
         | WrapPayload<'delete-question', Question<T>>;
 
     'playlist-state':
-        | WrapPayload<'playlist-add', Question<T>>
+        | WrapPayload<'playlist-add', string>
         | WrapPayload<'playlist-remove', string>
         | WrapPayload<'playlist-queue-event', TownhallQueueUpdates<T>>
-        | WrapPayload<'playlist-like-count', Question<T>>;
+        | WrapPayload<
+              'playlist-like-count',
+              { questionId: string; userId: string }
+          >;
 
     'townhall-state':
         | WrapPayload<'user-attend', null>
