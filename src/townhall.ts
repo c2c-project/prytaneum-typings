@@ -1,4 +1,4 @@
-import faker from 'faker';
+import faker from 'faker/locale/en';
 import { ObjectId } from 'mongodb';
 import { Meta, makeMetaField, WrapPayload } from '.';
 
