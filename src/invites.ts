@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import faker from 'faker';
+import faker from 'faker/locale/en';
 import { Roles, pickRole } from './index';
 
 /**
@@ -10,6 +10,7 @@ export interface InviteLink<T extends string | ObjectId = string> {
     inviter: T;
     roles: Roles[];
     limit: number;
+    uses: number;
 }
 
 export const makeInviteLink = (): InviteLink => ({
@@ -17,4 +18,5 @@ export const makeInviteLink = (): InviteLink => ({
     inviter: faker.random.alphaNumeric(12),
     roles: [pickRole()],
     limit: faker.random.number(5),
+    uses: faker.random.number(2),
 });

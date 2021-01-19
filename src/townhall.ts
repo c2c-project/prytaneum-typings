@@ -1,4 +1,4 @@
-import faker from 'faker';
+import faker from 'faker/locale/en';
 import { ObjectId } from 'mongodb';
 import { Meta, makeMetaField, WrapPayload } from '.';
 
@@ -236,7 +236,7 @@ export interface Question<T extends string | ObjectId = string> {
     question: string;
     quote: Question<T> | null;
     state: QuestionState;
-    likes: ObjectId[];
+    likes: T[];
     aiml: {
         labels: string[];
     };
@@ -401,7 +401,16 @@ export interface SocketIOEvents<T extends string | ObjectId = string> {
         | WrapPayload<'playlist-queue-order', Question<T>[]>
         | WrapPayload<'playlist-queue-add', Question<T>>
         | WrapPayload<'playlist-queue-remove', string>
-        | WrapPayload<'playlist-queue-next', null>;
+        | WrapPayload<'playlist-queue-next', null>
+        | WrapPayload<'playlist-queue-previous', null>
+        | WrapPayload<
+              'playlist-like-add',
+              { questionId: string; userId: string }
+          >
+        | WrapPayload<
+              'playlist-like-remove',
+              { questionId: string; userId: string }
+          >;
 
     'townhall-state':
         | WrapPayload<'user-attend', null>
