@@ -95,6 +95,9 @@ export interface TownhallSettings {
     video: {
         url: string;
     };
+    rating: {
+        enabled: boolean;
+    };
 }
 
 export const makeTownhallSettings = (): TownhallSettings => {
@@ -134,6 +137,9 @@ export const makeTownhallSettings = (): TownhallSettings => {
         },
         video: {
             url: '',
+        },
+        rating: {
+            enabled: Math.random() > 0.5,
         },
     };
 };
