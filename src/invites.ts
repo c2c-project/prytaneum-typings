@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import faker from 'faker/locale/en';
+import faker from 'faker';
 import { Roles, pickRole } from './index';
 
 /**

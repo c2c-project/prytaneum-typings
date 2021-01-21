@@ -1,4 +1,4 @@
-import faker from 'faker/locale/en';
+import faker from 'faker';
 import { ObjectId } from 'mongodb';
 
 export type ReferenceNames =
