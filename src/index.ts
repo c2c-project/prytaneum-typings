@@ -207,6 +207,7 @@ export interface Pagination {
 export * from './auth';
 export * from './townhall';
 export * from './invites';
+export * from './notifications';
 export * from './feedback';
 
 export function makeGenFn<T>(fn: () => T) {
