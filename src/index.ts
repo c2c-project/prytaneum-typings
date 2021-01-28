@@ -1,4 +1,4 @@
-import faker from 'faker/locale/en';
+import faker from 'faker';
 import { ObjectId } from 'mongodb';
 
 export type ReferenceNames =
@@ -208,6 +208,7 @@ export * from './auth';
 export * from './townhall';
 export * from './invites';
 export * from './notifications';
+export * from './feedback';
 
 export function makeGenFn<T>(fn: () => T) {
     return (iterations: number) => {
