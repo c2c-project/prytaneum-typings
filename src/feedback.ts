@@ -84,3 +84,29 @@ export const makeBugReports = (
     amount?: number,
     callback?: (t: BugReport) => BugReport // for transforming each bug report if needed
 ): BugReport[] => makeDummyList(makeBugReport, amount, callback);
+
+export interface ReportForm {
+    description: string;
+}
+
+export const makeReportForm = (): ReportForm => ({
+    description: faker.lorem.words(),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface FeedbackForm extends ReportForm {
+    // Add more fields in the future if needed
+}
+
+export const makeFeedbackReportForm = (): FeedbackForm => ({
+    ...makeFeedbackReport(),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface BugReportForm extends ReportForm {
+    // Add more fields in the future if needed
+}
+
+export const makeBugReportForm = (): BugReportForm => ({
+    ...makeFeedbackReport(),
+});
