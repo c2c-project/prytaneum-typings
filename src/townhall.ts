@@ -328,8 +328,8 @@ export interface TownhallState<T extends string | ObjectId = string> {
             current: number; // 0-indexed; max will be limited by the length of the queue -- starts at -1 if there's no current question
             timestamps: string[];
         };
-        queue: Question<T>[];
-        list: Question<T>[];
+        queue: T[];
+        list: T[];
     };
 }
 
@@ -342,9 +342,9 @@ export const makeTownhallState = (): TownhallState => ({
         max: faker.random.number(10),
     },
     playlist: {
-        position: { current: Math.random() > 0.5 ? 0 : -1, timestamps: [] },
-        queue: [makeQuestion()],
-        list: [makeQuestion()],
+        position: { current: -1, timestamps: [] },
+        queue: [],
+        list: [],
     },
 });
 
