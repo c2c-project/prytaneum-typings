@@ -1,5 +1,7 @@
 import faker from 'faker';
 import { ObjectId } from 'mongodb';
+import { Townhall, Question, ChatMessage } from './townhall';
+import { InviteLink } from './invites';
 
 export type ReferenceNames =
     | 'Github'
@@ -218,4 +220,16 @@ export function makeGenFn<T>(fn: () => T) {
         }
         return ret;
     };
+}
+
+/**
+ * SOCKETIO CONTRACTS
+ */
+
+export interface Subscriptions<T extends string | ObjectId = string> {
+    Users: User<T>;
+    Townhalls: Townhall<T>;
+    Questions: Question<ObjectId>;
+    ChatMessages: ChatMessage<ObjectId>;
+    InviteLinks: InviteLink<ObjectId>;
 }
