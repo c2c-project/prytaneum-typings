@@ -379,49 +379,36 @@ export const makeTownhalls = (
 };
 
 export interface RatingForm {
-    values: Array<{ question: string; value: number | null }>;
+    userId?: string;
+    values: Record<string, number | null>;
     feedback: string;
 }
 
 export const makeRatingForm = () => ({
-    values: [
-        {
-            question: faker.lorem.sentence(),
-            value: faker.random.number(5),
-        },
-        {
-            question: faker.lorem.sentence(),
-            value: faker.random.number(5),
-        },
-    ],
+    values: {
+        [faker.lorem.sentence()]: faker.random.number(5),
+        [faker.lorem.sentence()]: faker.random.number(5),
+        [faker.lorem.sentence()]: null,
+    },
     feedback: faker.lorem.sentence(),
 });
 
 export interface Rating<T extends string | ObjectId = string> {
     _id: T;
-    ratings: Set<{
-        userId: T;
-        values: Array<{ question: string; value: number | null }>;
-        feedback: string;
-    }>;
+    ratings: { userId?: T; values: Record<string, number | null> }[];
 }
 
 export const makeRating = () => ({
     _id: faker.random.alphaNumeric(12),
-    ratings: new Set([
+    ratings: [
         {
             userId: faker.random.alphaNumeric(12),
-            values: [
-                {
-                    question: faker.lorem.sentence(),
-                    value: faker.random.number(5),
-                },
-                {
-                    question: faker.lorem.sentence(),
-                    value: faker.random.number(5),
-                },
-            ],
+            values: {
+                [faker.lorem.sentence()]: faker.random.number(5),
+                [faker.lorem.sentence()]: faker.random.number(5),
+                [faker.lorem.sentence()]: null,
+            },
             feedback: faker.lorem.sentence(),
         },
-    ]),
+    ],
 });
