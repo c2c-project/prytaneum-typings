@@ -226,10 +226,11 @@ export function makeGenFn<T>(fn: () => T) {
  * SOCKETIO CONTRACTS
  */
 
+export type SubscriptionTypes = 'create' | 'update' | 'delete';
 export interface Subscriptions<T extends string | ObjectId = string> {
-    Users: User<T>;
-    Townhalls: Townhall<T>;
-    Questions: Question<ObjectId>;
-    ChatMessages: ChatMessage<ObjectId>;
-    InviteLinks: InviteLink<ObjectId>;
+    Users: { type: SubscriptionTypes; payload: User<T> };
+    Townhalls: { type: SubscriptionTypes; payload: Townhall<T> };
+    Questions: { type: SubscriptionTypes; payload: Question<ObjectId> };
+    ChatMessages: { type: SubscriptionTypes; payload: ChatMessage<ObjectId> };
+    InviteLinks: { type: SubscriptionTypes; payload: InviteLink<ObjectId> };
 }
