@@ -395,14 +395,26 @@ export const makeRatingForm = () => ({
 
 export interface Rating<T extends string | ObjectId = string> {
     _id: T;
+    meta: & {
+        townhallId: T;
+    };
     ratings: { userId?: T; values: Record<string, number | null> }[];
 }
 
 export const makeRating = () => ({
     _id: faker.random.alphaNumeric(12),
+    meta: { ...makeMetaField(), townhallId: faker.random.alphaNumeric(12) },
     ratings: [
         {
             userId: faker.random.alphaNumeric(12),
+            values: {
+                [faker.lorem.sentence()]: faker.random.number(5),
+                [faker.lorem.sentence()]: faker.random.number(5),
+                [faker.lorem.sentence()]: null,
+            },
+            feedback: faker.lorem.sentence(),
+        },
+        {
             values: {
                 [faker.lorem.sentence()]: faker.random.number(5),
                 [faker.lorem.sentence()]: faker.random.number(5),
