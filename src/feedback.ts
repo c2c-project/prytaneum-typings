@@ -99,7 +99,7 @@ export interface FeedbackReportForm extends ReportForm {
 }
 
 export const makeFeedbackReportForm = (): FeedbackReportForm => ({
-    ...makeFeedbackReport(),
+    ...makeReportForm(),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -108,5 +108,5 @@ export interface BugReportForm extends ReportForm {
 }
 
 export const makeBugReportForm = (): BugReportForm => ({
-    ...makeFeedbackReport(),
+    ...makeReportForm(),
 });
