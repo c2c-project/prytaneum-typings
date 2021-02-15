@@ -227,10 +227,14 @@ export function makeGenFn<T>(fn: () => T) {
  */
 
 export type SubscriptionTypes = 'create' | 'update' | 'delete';
+export type MakeSubscription<T> =
+    | { type: 'create'; payload: T }
+    | { type: 'update'; payload: T }
+    | { type: 'delete'; payload: string };
 export interface Subscriptions<T extends string | ObjectId = string> {
-    Users: { type: SubscriptionTypes; payload: User<T> };
-    Townhalls: { type: SubscriptionTypes; payload: Townhall<T> };
-    Questions: { type: SubscriptionTypes; payload: Question<ObjectId> };
-    ChatMessages: { type: SubscriptionTypes; payload: ChatMessage<ObjectId> };
-    InviteLinks: { type: SubscriptionTypes; payload: InviteLink<ObjectId> };
+    Users: MakeSubscription<User<T>>;
+    Townhalls: MakeSubscription<Townhall<T>>;
+    Questions: MakeSubscription<Question<T>>;
+    ChatMessages: MakeSubscription<ChatMessage<T>>;
+    InviteLinks: MakeSubscription<InviteLink<T>>;
 }
