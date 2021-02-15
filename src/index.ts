@@ -226,16 +226,53 @@ export function makeGenFn<T>(fn: () => T) {
  * SOCKETIO CONTRACTS
  */
 
-export type SubscriptionTypes = 'create' | 'update' | 'delete';
-export type MakeSubscription<T> =
-    | { type: 'create'; payload: T }
-    | { type: 'update'; payload: T }
-    | { type: 'delete'; payload: string };
-export interface Subscriptions<T extends string | ObjectId = string> {
-    Users: MakeSubscription<User<T>>;
-    Townhalls: MakeSubscription<Townhall<T>>;
-    Questions: MakeSubscription<Question<T>>;
-    ChatMessages: MakeSubscription<ChatMessage<T>>;
-    InviteLinks: MakeSubscription<InviteLink<T>>;
-    Playlists: MakeSubscription<Playlist<T>>;
+// export type SubscriptionTypes = 'create' | 'update' | 'delete';
+// export type MakeSubscription<T> =
+//     | { type: 'create'; payload: T }
+//     | { type: 'update'; payload: T }
+//     | { type: 'delete'; payload: string };
+// export interface Subscriptions<T extends string | ObjectId = string> {
+//     Users: MakeSubscription<User<T>>;
+//     Townhalls: MakeSubscription<Townhall<T>>;
+//     Questions: MakeSubscription<Question<T>>;
+//     ChatMessages: MakeSubscription<ChatMessage<T>>;
+//     InviteLinks: MakeSubscription<InviteLink<T>>;
+//     Playlists: MakeSubscription<Playlist<T>>;
+// }
+
+export interface SocketIOEvents<T extends string | ObjectId = string> {
+    'chat-message-state':
+        | WrapPayload<'create-chat-message', ChatMessage<T>>
+        | WrapPayload<'update-chat-message', ChatMessage<T>>
+        | WrapPayload<'delete-chat-message', ChatMessage<T>>
+        | WrapPayload<'moderate-chat-message', ChatMessage<T>>;
+
+    'question-state':
+        | WrapPayload<'initial-state', Question<T>[]>
+        | WrapPayload<'create-question', Question<T>>
+        | WrapPayload<'update-question', Question<T>>
+        | WrapPayload<'delete-question', Question<T>>;
+
+    'playlist-state':
+        | WrapPayload<'playlist-add', Question<T>>
+        | WrapPayload<'playlist-remove', string>
+        | WrapPayload<'playlist-queue-order', Question<T>[]>
+        | WrapPayload<'playlist-queue-add', Question<T>>
+        | WrapPayload<'playlist-queue-remove', string>
+        | WrapPayload<'playlist-queue-next', null>
+        | WrapPayload<'playlist-queue-previous', null>
+        | WrapPayload<
+              'playlist-like-add',
+              { questionId: string; userId: string }
+          >
+        | WrapPayload<
+              'playlist-like-remove',
+              { questionId: string; userId: string }
+          >;
+
+    'townhall-state':
+        | WrapPayload<'user-attend', null>
+        | WrapPayload<'user-leave', null>
+        | WrapPayload<'townhall-start', null>
+        | WrapPayload<'townhall-end', null>;
 }
