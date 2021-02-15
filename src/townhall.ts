@@ -393,11 +393,13 @@ export const makeRatingForm = () => ({
     feedback: faker.lorem.sentence(),
 });
 
+export type RatingMetaAt = Pick<Meta, 'createdAt' | 'updatedAt'>;
+export type RatingMetaBy = Partial<Pick<Meta, 'createdBy' | 'updatedBy'>>
+export type RatingMeta<T extends string | ObjectId = string> =  RatingMetaAt & RatingMetaBy & { townhallId: T };
+
 export interface Rating<T extends string | ObjectId = string> {
     _id: T;
-    meta: & {
-        townhallId: T;
-    };
+    meta: RatingMeta<T>;
     ratings: { userId?: T; values: Record<string, number | null> }[];
 }
 
