@@ -309,6 +309,21 @@ export type Panes = 'Question Feed' | 'Chat' | 'Information';
 //     payload: U;
 // }
 
+export interface Playlist<T extends string | ObjectId = string> {
+    position: {
+        current: number; // 0-indexed; max will be limited by the length of the queue -- starts at -1 if there's no current question
+        timestamps: string[];
+    };
+    queue: Question<T>[];
+    list: Question<T>[];
+}
+
+export const makePlaylist = (): Playlist => ({
+    position: { current: -1, timestamps: [] },
+    queue: [],
+    list: [],
+});
+
 export interface TownhallState<T extends string | ObjectId = string> {
     active: boolean;
     // TODO: move this inside of active?
@@ -323,14 +338,7 @@ export interface TownhallState<T extends string | ObjectId = string> {
 
     // we copy the questions because we don't want edits after the fact to affect the asked question last second
     // we will possibly not allow edits
-    playlist: {
-        position: {
-            current: number; // 0-indexed; max will be limited by the length of the queue -- starts at -1 if there's no current question
-            timestamps: string[];
-        };
-        queue: Question<T>[];
-        list: Question<T>[];
-    };
+    playlist: Playlist<T>;
 }
 
 export const makeTownhallState = (): TownhallState => ({
@@ -341,11 +349,7 @@ export const makeTownhallState = (): TownhallState => ({
         current: faker.random.number(5),
         max: faker.random.number(10),
     },
-    playlist: {
-        position: { current: -1, timestamps: [] },
-        queue: [],
-        list: [],
-    },
+    playlist: makePlaylist(),
 });
 
 export interface Townhall<T extends string | ObjectId = string> {

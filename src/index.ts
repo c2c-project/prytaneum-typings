@@ -1,6 +1,6 @@
 import faker from 'faker';
 import { ObjectId } from 'mongodb';
-import { Townhall, Question, ChatMessage } from './townhall';
+import { Townhall, Question, ChatMessage, Playlist } from './townhall';
 import { InviteLink } from './invites';
 
 export type ReferenceNames =
@@ -237,4 +237,5 @@ export interface Subscriptions<T extends string | ObjectId = string> {
     Questions: MakeSubscription<Question<T>>;
     ChatMessages: MakeSubscription<ChatMessage<T>>;
     InviteLinks: MakeSubscription<InviteLink<T>>;
+    Playlists: MakeSubscription<Playlist<T>>;
 }
