@@ -400,7 +400,8 @@ export type RatingMeta<T extends string | ObjectId = string> =  RatingMetaAt & R
 export interface Rating<T extends string | ObjectId = string> {
     _id: T;
     meta: RatingMeta<T>;
-    ratings: { userId?: T; values: Record<string, number | null> }[];
+    ratings: Record<string, number | null>;
+    feedback: string;
 }
 
 export const makeRating = () => ({
