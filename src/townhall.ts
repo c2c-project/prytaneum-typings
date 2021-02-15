@@ -328,8 +328,8 @@ export interface TownhallState<T extends string | ObjectId = string> {
             current: number; // 0-indexed; max will be limited by the length of the queue -- starts at -1 if there's no current question
             timestamps: string[];
         };
-        queue: T[];
-        list: T[];
+        queue: Question<T>[];
+        list: Question<T>[];
     };
 }
 
