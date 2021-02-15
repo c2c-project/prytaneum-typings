@@ -275,6 +275,7 @@ export interface ChatMessage<T extends string | ObjectId = string> {
     _id: T;
     meta: Meta<T> & {
         townhallId: T;
+        isModerator: boolean;
     };
     visibility: Visibility;
     message: string;
