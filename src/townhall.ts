@@ -398,22 +398,25 @@ export const makeRatingForm = () => ({
     feedback: faker.lorem.sentence(),
 });
 
+export type RatingMetaAt = Pick<Meta, 'createdAt' | 'updatedAt'>;
+export type RatingMetaBy = Partial<Pick<Meta, 'createdBy' | 'updatedBy'>>;
+export type RatingMeta<T extends string | ObjectId = string> = RatingMetaAt &
+    RatingMetaBy & { townhallId: T };
+
 export interface Rating<T extends string | ObjectId = string> {
     _id: T;
-    ratings: { userId?: T; values: Record<string, number | null> }[];
+    meta: RatingMeta<T>;
+    ratings: Record<string, number | null>;
+    feedback: string;
 }
 
 export const makeRating = () => ({
     _id: faker.random.alphaNumeric(12),
-    ratings: [
-        {
-            userId: faker.random.alphaNumeric(12),
-            values: {
-                [faker.lorem.sentence()]: faker.random.number(5),
-                [faker.lorem.sentence()]: faker.random.number(5),
-                [faker.lorem.sentence()]: null,
-            },
-            feedback: faker.lorem.sentence(),
-        },
-    ],
+    meta: { ...makeMetaField(), townhallId: faker.random.alphaNumeric(12) },
+    ratings: {
+        [faker.lorem.sentence()]: faker.random.number(5),
+        [faker.lorem.sentence()]: faker.random.number(5),
+        [faker.lorem.sentence()]: null,
+    },
+    feedback: faker.lorem.sentence(),
 });
