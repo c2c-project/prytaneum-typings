@@ -283,7 +283,11 @@ export interface ChatMessage<T extends string | ObjectId = string> {
 
 export const makeChatMessage = (): ChatMessage => ({
     _id: faker.random.alphaNumeric(12),
-    meta: { ...makeMetaField(), townhallId: faker.random.alphaNumeric(12) },
+    meta: {
+        ...makeMetaField(),
+        townhallId: faker.random.alphaNumeric(12),
+        isModerator: Math.random() > 0.5,
+    },
     message: faker.lorem.lines(3),
     visibility: pickVisibility(),
 });
