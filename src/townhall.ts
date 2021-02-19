@@ -379,7 +379,6 @@ export const makeTownhalls = (
 };
 
 export interface RatingForm {
-    userId?: string;
     values: Record<string, number | null>;
     feedback: string;
 }
