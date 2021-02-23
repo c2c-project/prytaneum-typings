@@ -271,8 +271,8 @@ export interface SocketIOEvents<T extends string | ObjectId = string> {
           >;
 
     'townhall-state':
-        | WrapPayload<'user-attend', null>
-        | WrapPayload<'user-leave', null>
+        | WrapPayload<'user-attend', number>
+        | WrapPayload<'user-leave', number>
         | WrapPayload<'townhall-start', null>
         | WrapPayload<'townhall-end', null>;
 }

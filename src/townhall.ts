@@ -423,3 +423,7 @@ export const makeRating = () => ({
     },
     feedback: faker.lorem.sentence(),
 });
+
+export interface BreakoutForm {
+    numRooms: number;
+}
