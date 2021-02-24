@@ -427,3 +427,15 @@ export const makeRating = () => ({
 export interface BreakoutForm {
     numRooms: number;
 }
+
+export interface Breakout<T extends ObjectId | string = string> {
+    _id: T;
+    /**
+     * positive integer
+     */
+    roomId: number;
+    /**
+     * array of socket id's
+     */
+    sockets: string[];
+}
