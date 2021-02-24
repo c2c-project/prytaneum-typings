@@ -61,7 +61,7 @@ export interface User<T extends string | ObjectId = string> {
         verified: boolean;
         address: string;
     };
-    password: string;
+    password: string | null; // if null then, this is a "pre-registered" account
     name: Name;
     settings: {
         townhall: {
