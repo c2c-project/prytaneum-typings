@@ -276,6 +276,10 @@ export interface ChatMessage<T extends string | ObjectId = string> {
     meta: Meta<T> & {
         townhallId: T;
         isModerator: boolean;
+        /**
+         * breakout room id
+         */
+        breakoutId: T;
     };
     visibility: Visibility;
     message: string;
@@ -287,6 +291,7 @@ export const makeChatMessage = (): ChatMessage => ({
         ...makeMetaField(),
         townhallId: faker.random.alphaNumeric(12),
         isModerator: Math.random() > 0.5,
+        breakoutId: faker.random.alphaNumeric(12),
     },
     message: faker.lorem.lines(3),
     visibility: pickVisibility(),
