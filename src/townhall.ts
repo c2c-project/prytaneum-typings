@@ -435,6 +435,7 @@ export interface BreakoutForm {
 
 export interface Breakout<T extends ObjectId | string = string> {
     _id: T;
+    townhallId: T;
     /**
      * positive integer
      */
