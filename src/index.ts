@@ -72,6 +72,7 @@ export interface User<T extends string | ObjectId = string> {
             types: string[];
         };
     };
+    sockets: string[];
 }
 
 export const makeUser = (): User => {
@@ -97,6 +98,7 @@ export const makeUser = (): User => {
                 types: [], // TODO:
             },
         },
+        sockets: [],
     };
 };
 
