@@ -444,4 +444,8 @@ export interface Breakout<T extends ObjectId | string = string> {
      * array of socket id's
      */
     sockets: string[];
+    /**
+     * whether or not the breakout session is active
+     */
+    active: boolean;
 }
