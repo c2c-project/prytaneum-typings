@@ -17,9 +17,9 @@ function makeDummyList<T>(
     return list;
 }
 
-export interface ReportReply {
+export interface ReportReply<T extends string | ObjectId = string> {
     content: string;
-    meta: Meta<ObjectId | string>;
+    meta: Meta<T>;
 }
 
 export const makeReportReply = (): ReportReply => ({
@@ -40,10 +40,10 @@ export const makeReportReplyForm = (): ReportReplyForm => ({
     content: faker.lorem.words(),
 });
 
-export interface Report {
+export interface Report<T extends string | ObjectId = string> {
     description: string;
     resolved?: boolean;
-    replies: ReportReply[];
+    replies: ReportReply<T>[];
 }
 
 export const makeReport = (): Report => ({
@@ -58,7 +58,7 @@ export const makeReports = (
 ): Report[] => makeDummyList(makeReport, amount, callback);
 
 export interface FeedbackReport<T extends string | ObjectId = string>
-    extends Report {
+    extends Report<T> {
     _id: T;
     meta: Meta<T>;
 }
@@ -75,7 +75,7 @@ export const makeFeedbackReports = (
 ): FeedbackReport[] => makeDummyList(makeFeedbackReport, amount, callback);
 
 export interface BugReport<T extends string | ObjectId = string>
-    extends Report {
+    extends Report<T> {
     _id: T;
     meta: Meta<T>;
     townhallId: T;
