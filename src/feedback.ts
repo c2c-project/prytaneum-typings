@@ -17,9 +17,9 @@ function makeDummyList<T>(
     return list;
 }
 
-export interface ReportReply {
+export interface ReportReply<T extends string | ObjectId = string> {
     content: string;
-    meta: Meta;
+    meta: Meta<T>;
 }
 
 export const makeReportReply = (): ReportReply => ({
