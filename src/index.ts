@@ -1,5 +1,7 @@
-import faker from 'faker/locale/en';
+import faker from 'faker';
 import { ObjectId } from 'mongodb';
+import { Townhall, Question, ChatMessage, Playlist } from './townhall';
+import { InviteLink } from './invites';
 
 export type ReferenceNames =
     | 'Github'
@@ -59,7 +61,7 @@ export interface User<T extends string | ObjectId = string> {
         verified: boolean;
         address: string;
     };
-    password: string;
+    password: string | null; // if null then, this is a "pre-registered" account
     name: Name;
     settings: {
         townhall: {
@@ -70,6 +72,7 @@ export interface User<T extends string | ObjectId = string> {
             types: string[];
         };
     };
+    sockets: string[];
 }
 
 export const makeUser = (): User => {
@@ -95,6 +98,7 @@ export const makeUser = (): User => {
                 types: [], // TODO:
             },
         },
+        sockets: [],
     };
 };
 
@@ -207,6 +211,7 @@ export interface Pagination {
 export * from './auth';
 export * from './townhall';
 export * from './invites';
+export * from './notifications';
 export * from './feedback';
 
 export function makeGenFn<T>(fn: () => T) {
@@ -217,4 +222,59 @@ export function makeGenFn<T>(fn: () => T) {
         }
         return ret;
     };
+}
+
+/**
+ * SOCKETIO CONTRACTS
+ */
+
+// export type SubscriptionTypes = 'create' | 'update' | 'delete';
+// export type MakeSubscription<T> =
+//     | { type: 'create'; payload: T }
+//     | { type: 'update'; payload: T }
+//     | { type: 'delete'; payload: string };
+// export interface Subscriptions<T extends string | ObjectId = string> {
+//     Users: MakeSubscription<User<T>>;
+//     Townhalls: MakeSubscription<Townhall<T>>;
+//     Questions: MakeSubscription<Question<T>>;
+//     ChatMessages: MakeSubscription<ChatMessage<T>>;
+//     InviteLinks: MakeSubscription<InviteLink<T>>;
+//     Playlists: MakeSubscription<Playlist<T>>;
+// }
+
+export interface SocketIOEvents<T extends string | ObjectId = string> {
+    'chat-message-state':
+        | WrapPayload<'create-chat-message', ChatMessage<T>>
+        | WrapPayload<'update-chat-message', ChatMessage<T>>
+        | WrapPayload<'delete-chat-message', ChatMessage<T>>
+        | WrapPayload<'moderate-chat-message', ChatMessage<T>>;
+
+    'question-state':
+        | WrapPayload<'initial-state', Question<T>[]>
+        | WrapPayload<'create-question', Question<T>>
+        | WrapPayload<'update-question', Question<T>>
+        | WrapPayload<'delete-question', Question<T>>;
+
+    'playlist-state':
+        | WrapPayload<'playlist-add', Question<T>>
+        | WrapPayload<'playlist-remove', string>
+        | WrapPayload<'playlist-queue-order', Question<T>[]>
+        | WrapPayload<'playlist-queue-add', Question<T>>
+        | WrapPayload<'playlist-queue-remove', string>
+        | WrapPayload<'playlist-queue-next', null>
+        | WrapPayload<'playlist-queue-previous', null>
+        | WrapPayload<
+              'playlist-like-add',
+              { questionId: string; userId: string }
+          >
+        | WrapPayload<
+              'playlist-like-remove',
+              { questionId: string; userId: string }
+          >;
+
+    'townhall-state':
+        | WrapPayload<'user-attend', number>
+        | WrapPayload<'user-leave', number>
+        | WrapPayload<'townhall-start', null>
+        | WrapPayload<'townhall-end', null>;
 }

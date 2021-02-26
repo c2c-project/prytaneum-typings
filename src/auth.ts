@@ -1,4 +1,4 @@
-import faker from 'faker/locale/en';
+import faker from 'faker';
 
 export interface RegisterForm {
     password: string;

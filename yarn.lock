@@ -27,9 +27,9 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.6.tgz#146d3da57b3c636cc0d1769396ce1cfa8991147f"
   integrity sha512-6QlRuqsQ/Ox/aJEQWBEJG7A9+u7oSYl3mem/K8IzxXG/kAGbV1YPD9Bg9Zw3vyxC/YP+zONKwy8hGkSt1jxFMw==
 
-"faker@https://github.com/marak/Faker.js#v5.1.0":
+"faker@https://github.com/DevelopmentByDavid/faker.js#delete-stuff":
   version "5.1.0"
-  resolved "https://github.com/marak/Faker.js#e0b392de967d3000f59ef712c666786aa5ae19b7"
+  resolved "https://github.com/DevelopmentByDavid/faker.js#b6488ff0039b737819eed805e2fdd478e07e4b10"
 
 typescript@^4.0.5:
   version "4.0.5"

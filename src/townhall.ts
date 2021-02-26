@@ -1,4 +1,4 @@
-import faker from 'faker/locale/en';
+import faker from 'faker';
 import { ObjectId } from 'mongodb';
 import { Meta, makeMetaField, WrapPayload } from '.';
 
@@ -95,6 +95,9 @@ export interface TownhallSettings {
     video: {
         url: string;
     };
+    rating: {
+        enabled: boolean;
+    };
 }
 
 export const makeTownhallSettings = (): TownhallSettings => {
@@ -134,6 +137,9 @@ export const makeTownhallSettings = (): TownhallSettings => {
         },
         video: {
             url: '',
+        },
+        rating: {
+            enabled: Math.random() > 0.5,
         },
     };
 };
@@ -269,6 +275,11 @@ export interface ChatMessage<T extends string | ObjectId = string> {
     _id: T;
     meta: Meta<T> & {
         townhallId: T;
+        isModerator: boolean;
+        /**
+         * breakout room id
+         */
+        breakoutId: T;
     };
     visibility: Visibility;
     message: string;
@@ -276,7 +287,12 @@ export interface ChatMessage<T extends string | ObjectId = string> {
 
 export const makeChatMessage = (): ChatMessage => ({
     _id: faker.random.alphaNumeric(12),
-    meta: { ...makeMetaField(), townhallId: faker.random.alphaNumeric(12) },
+    meta: {
+        ...makeMetaField(),
+        townhallId: faker.random.alphaNumeric(12),
+        isModerator: Math.random() > 0.5,
+        breakoutId: faker.random.alphaNumeric(12),
+    },
     message: faker.lorem.lines(3),
     visibility: pickVisibility(),
 });
@@ -303,6 +319,21 @@ export type Panes = 'Question Feed' | 'Chat' | 'Information';
 //     payload: U;
 // }
 
+export interface Playlist<T extends string | ObjectId = string> {
+    position: {
+        current: number; // 0-indexed; max will be limited by the length of the queue -- starts at -1 if there's no current question
+        timestamps: string[];
+    };
+    queue: Question<T>[];
+    list: Question<T>[];
+}
+
+export const makePlaylist = (): Playlist => ({
+    position: { current: -1, timestamps: [] },
+    queue: [],
+    list: [],
+});
+
 export interface TownhallState<T extends string | ObjectId = string> {
     active: boolean;
     // TODO: move this inside of active?
@@ -317,14 +348,7 @@ export interface TownhallState<T extends string | ObjectId = string> {
 
     // we copy the questions because we don't want edits after the fact to affect the asked question last second
     // we will possibly not allow edits
-    playlist: {
-        position: {
-            current: number; // 0-indexed; max will be limited by the length of the queue -- starts at -1 if there's no current question
-            timestamps: string[];
-        };
-        queue: Question<T>[];
-        list: Question<T>[];
-    };
+    playlist: Playlist<T>;
 }
 
 export const makeTownhallState = (): TownhallState => ({
@@ -335,11 +359,7 @@ export const makeTownhallState = (): TownhallState => ({
         current: faker.random.number(5),
         max: faker.random.number(10),
     },
-    playlist: {
-        position: { current: Math.random() > 0.5 ? 0 : -1, timestamps: [] },
-        queue: [makeQuestion()],
-        list: [makeQuestion()],
-    },
+    playlist: makePlaylist(),
 });
 
 export interface Townhall<T extends string | ObjectId = string> {
@@ -372,43 +392,60 @@ export const makeTownhalls = (
     return list;
 };
 
-/**
- * SOCKETIO CONTRACTS
- */
+export interface RatingForm {
+    values: Record<string, number | null>;
+    feedback: string;
+}
 
-export interface SocketIOEvents<T extends string | ObjectId = string> {
-    'chat-message-state':
-        | WrapPayload<'create-chat-message', ChatMessage<T>>
-        | WrapPayload<'update-chat-message', ChatMessage<T>>
-        | WrapPayload<'delete-chat-message', ChatMessage<T>>
-        | WrapPayload<'moderate-chat-message', ChatMessage<T>>;
+export const makeRatingForm = () => ({
+    values: {
+        [faker.lorem.sentence()]: faker.random.number(5),
+        [faker.lorem.sentence()]: faker.random.number(5),
+        [faker.lorem.sentence()]: null,
+    },
+    feedback: faker.lorem.sentence(),
+});
 
-    'question-state':
-        | WrapPayload<'initial-state', Question<T>[]>
-        | WrapPayload<'create-question', Question<T>>
-        | WrapPayload<'update-question', Question<T>>
-        | WrapPayload<'delete-question', Question<T>>;
+export type RatingMetaAt = Pick<Meta, 'createdAt' | 'updatedAt'>;
+export type RatingMetaBy = Partial<Pick<Meta, 'createdBy' | 'updatedBy'>>;
+export type RatingMeta<T extends string | ObjectId = string> = RatingMetaAt &
+    RatingMetaBy & { townhallId: T };
 
-    'playlist-state':
-        | WrapPayload<'playlist-add', Question<T>>
-        | WrapPayload<'playlist-remove', string>
-        | WrapPayload<'playlist-queue-order', Question<T>[]>
-        | WrapPayload<'playlist-queue-add', Question<T>>
-        | WrapPayload<'playlist-queue-remove', string>
-        | WrapPayload<'playlist-queue-next', null>
-        | WrapPayload<'playlist-queue-previous', null>
-        | WrapPayload<
-              'playlist-like-add',
-              { questionId: string; userId: string }
-          >
-        | WrapPayload<
-              'playlist-like-remove',
-              { questionId: string; userId: string }
-          >;
+export interface Rating<T extends string | ObjectId = string> {
+    _id: T;
+    meta: RatingMeta<T>;
+    ratings: Record<string, number | null>;
+    feedback: string;
+}
 
-    'townhall-state':
-        | WrapPayload<'user-attend', null>
-        | WrapPayload<'user-leave', null>
-        | WrapPayload<'townhall-start', null>
-        | WrapPayload<'townhall-end', null>;
+export const makeRating = () => ({
+    _id: faker.random.alphaNumeric(12),
+    meta: { ...makeMetaField(), townhallId: faker.random.alphaNumeric(12) },
+    ratings: {
+        [faker.lorem.sentence()]: faker.random.number(5),
+        [faker.lorem.sentence()]: faker.random.number(5),
+        [faker.lorem.sentence()]: null,
+    },
+    feedback: faker.lorem.sentence(),
+});
+
+export interface BreakoutForm {
+    numRooms: number;
+}
+
+export interface Breakout<T extends ObjectId | string = string> {
+    _id: T;
+    townhallId: T;
+    /**
+     * positive integer
+     */
+    roomId: number;
+    /**
+     * array of socket id's
+     */
+    sockets: string[];
+    /**
+     * whether or not the breakout session is active
+     */
+    active: boolean;
 }
