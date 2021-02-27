@@ -247,7 +247,9 @@ export interface SocketIOEvents<T extends string | ObjectId = string> {
         | WrapPayload<'create-chat-message', ChatMessage<T>>
         | WrapPayload<'update-chat-message', ChatMessage<T>>
         | WrapPayload<'delete-chat-message', ChatMessage<T>>
-        | WrapPayload<'moderate-chat-message', ChatMessage<T>>;
+        | WrapPayload<'moderate-chat-message', ChatMessage<T>>
+        | WrapPayload<'breakout-end', null>
+        | WrapPayload<'breakout-start', { breakoutId: string }>;
 
     'question-state':
         | WrapPayload<'initial-state', Question<T>[]>
