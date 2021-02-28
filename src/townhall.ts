@@ -449,3 +449,11 @@ export interface Breakout<T extends ObjectId | string = string> {
      */
     active: boolean;
 }
+
+export const makeBreakout = (): Breakout => ({
+    _id: faker.random.alphaNumeric(12),
+    townhallId: faker.random.alphaNumeric(12),
+    roomId: Math.random() * 10,
+    sockets: [],
+    active: Math.random() > 0.5,
+});
