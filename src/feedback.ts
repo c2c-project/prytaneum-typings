@@ -23,7 +23,7 @@ export interface ReportReply<T extends string | ObjectId = string> {
 }
 
 export const makeReportReply = (): ReportReply => ({
-    content: faker.lorem.paragraph(),
+    content: faker.lorem.lines(5),
     meta: makeMetaField(),
 });
 
@@ -37,7 +37,7 @@ export interface ReportReplyForm {
 }
 
 export const makeReportReplyForm = (): ReportReplyForm => ({
-    content: faker.lorem.words(),
+    content: faker.lorem.lines(5),
 });
 
 export interface Report<T extends string | ObjectId = string> {
@@ -47,7 +47,7 @@ export interface Report<T extends string | ObjectId = string> {
 }
 
 export const makeReport = (): Report => ({
-    description: faker.lorem.paragraphs(),
+    description: faker.lorem.lines(5),
     resolved: faker.random.boolean(),
     replies: makeReportReplies(),
 });
@@ -98,7 +98,7 @@ export interface ReportForm {
 }
 
 export const makeReportForm = (): ReportForm => ({
-    description: faker.lorem.words(),
+    description: faker.lorem.lines(5),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
